@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 11+ Mathematics Complete Interactive Tutorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+            to { text-shadow: 2px 2px 20px rgba(255,255,255,0.3); }
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .topic-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .topic-card:hover::before {
+            left: 100%;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+        
+        .topic-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .topic-card .icon {
+            font-size: 1.5em;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        .topic-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .topic-card .difficulty {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .difficulty.beginner { background: #e8f5e8; color: #4CAF50; }
+        .difficulty.intermediate { background: #fff3e0; color: #ff9800; }
+        .difficulty.advanced { background: #ffebee; color: #f44336; }
+        
+        .content-area {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+            margin-bottom: 30px;
+        }
+        
+        .content-area.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .lesson-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .example-box {
+            background: #f8f9ff;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .example-box::before {
+            content: "Example";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .practice-problem {
+            background: #fff9e6;
+            border: 2px solid #ff9800;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .practice-problem::before {
+            content: "Practice";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #ff9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .interactive-question {
+            background: #f0f8ff;
+            border: 2px solid #2196F3;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .interactive-question::before {
+            content: "Interactive Question";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #2196F3;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .question-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: white;
+        }
+        
+        .option:hover {
+            border-color: #2196F3;
+            background: #f0f8ff;
+            transform: translateY(-2px);
+        }
+        
+        .option.correct {
+            background: #e8f5e8;
+            border-color: #4CAF50;
+            color: #2e7d32;
+        }
+        
+        .option.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 2px solid #4CAF50;
+        }
+        
+        .feedback.incorrect {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tip-box {
+            background: linear-gradient(45deg, #e3f2fd, #f3e5f5);
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 15px 15px 0;
+        }
+        
+        .tip-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .formula-box {
+            background: #f5f5f5;
+            border: 2px dashed #999;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+        }
+        
+        .step-by-step {
+            counter-reset: step-counter;
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            padding: 15px;
+            margin: 15px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+        }
+        
+        .step::before {
+            content: "Step " counter(step-counter);
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .quiz-score {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        
+        .achievement {
+            display: inline-block;
+            background: gold;
+            color: #b8860b;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        .hidden { display: none; }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .question-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Year 11+ Mathematics Tutorial</h1>
+            <p>Master every topic with interactive lessons and practice questions</p>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p style="margin-top: 10px;">Progress: <span id="progressText">0%</span></p>
+            </div>
+        </div>
+
+        <div id="mainMenu" class="nav-menu">
+            <div class="topic-card" onclick="showTopic('number-operations')">
+                <h3><div class="icon">🔢</div>Number Operations & Place Value</h3>
+                <p>Master place value, operations with large numbers, and number properties</p>
+                <div class="difficulty beginner">Beginner</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('fractions-decimals')">
+                <h3><div class="icon">½</div>Fractions & Decimals</h3>
+                <p>Convert between fractions and decimals, compare values, and solve problems</p>
+                <div class="difficulty beginner">Beginner</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('percentages')">
+                <h3><div class="icon">%</div>Percentages & Proportions</h3>
+                <p>Calculate percentages, solve proportion problems, and work with ratios</p>
+                <div class="difficulty intermediate">Intermediate</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('data-handling')">
+                <h3><div class="icon">📊</div>Data Handling & Statistics</h3>
+                <p>Interpret graphs, charts, tables, and calculate averages</p>
+                <div class="difficulty intermediate">Intermediate</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('geometry-shapes')">
+                <h3><div class="icon">🔺</div>Geometry & Shapes</h3>
+                <p>Properties of 2D and 3D shapes, symmetry, and angle calculations</p>
+                <div class="difficulty intermediate">Intermediate</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('area-perimeter')">
+                <h3><div class="icon">📐</div>Area, Perimeter & Volume</h3>
+                <p>Calculate areas, perimeters of complex shapes, and volumes</p>
+                <div class="difficulty advanced">Advanced</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('coordinates')">
+                <h3><div class="icon">📍</div>Coordinates & Graphs</h3>
+                <p>Plot points, read coordinates, and interpret conversion graphs</p>
+                <div class="difficulty intermediate">Intermediate</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('algebra-patterns')">
+                <h3><div class="icon">🧩</div>Algebra & Patterns</h3>
+                <p>Solve equations, work with sequences, and function machines</p>
+                <div class="difficulty advanced">Advanced</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('problem-solving')">
+                <h3><div class="icon">🧠</div>Problem Solving</h3>
+                <p>Multi-step word problems, logical reasoning, and real-world applications</p>
+                <div class="difficulty advanced">Advanced</div>
+            </div>
+
+            <div class="topic-card" onclick="showTopic('time-measurement')">
+                <h3><div class="icon">⏰</div>Time & Measurement</h3>
+                <p>Time calculations, unit conversions, and measurement problems</p>
+                <div class="difficulty beginner">Beginner</div>
+            </div>
+        </div>
+
+        <!-- Topic Content Areas -->
+        <div id="number-operations" class="content-area">
+            <button class="back-btn" onclick="showMainMenu()">← Back to Menu</button>
+            <div class="lesson-content">
+                <h2>Number Operations & Place Value</h2>
+                
+                <div class="example-box">
+                    <h3>Understanding Place Value</h3>
+                    <p><strong>Example:</strong> In the number 12,345:</p>
+                    <ul>
+                        <li>The 2 is worth 2,000 (thousands place)</li>
+                        <li>The 3 is worth 300 (hundreds place)</li>
+                        <li>The 4 is worth 40 (tens place)</li>
+                        <li>The 5 is worth 5 (units place)</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 Quick Tip</h4>
+                    <p>When finding the value of a digit, look at its position and multiply by the place value!</p>
+                </div>
+
+                <div class="interactive-question">
+                    <h3>Interactive Question 1</h3>
+                    <p>What is the value of the 9 in 12,097?</p>
+                    <div class="question-options">
+                        <div class="option" onclick="checkAnswer(this, false, 'q1')">A) 9000</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q1')">B) 9</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q1')">C) 900</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q1')">D) 90000</div>
+                        <div class="option" onclick="checkAnswer(this, true, 'q1')">E) 90</div>
+                    </div>
+                    <div class="feedback" id="feedback-q1"></div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Number Properties</h3>
+                    <p><strong>Cube Numbers:</strong> Numbers that result from multiplying a number by itself three times.</p>
+                    <p>Examples: 1³ = 1, 2³ = 8, 3³ = 27, 4³ = 64, 5³ = 125</p>
+                </div>
+
+                <div class="interactive-question">
+                    <h3>Interactive Question 2</h3>
+                    <p>Which answer has three numbers that are all cube numbers?</p>
+                    <div class="question-options">
+                        <div class="option" onclick="checkAnswer(this, false, 'q2')">A) 8, 16, 32</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q2')">B) 8, 27, 64</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q2')">C) 16, 32, 64</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q2')">D) 9, 27, 64</div>
+                        <div class="option" onclick="checkAnswer(this, true, 'q2')">E) 1, 27, 125</div>
+                    </div>
+                    <div class="feedback" id="feedback-q2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- More content areas would continue... -->
+        <div id="fractions-decimals" class="content-area">
+            <button class="back-btn" onclick="showMainMenu()">← Back to Menu</button>
+            <div class="lesson-content">
+                <h2>Fractions & Decimals</h2>
+                
+                <div class="example-box">
+                    <h3>Comparing Fractions</h3>
+                    <p>To compare fractions, convert them to the same denominator or decimal form.</p>
+                    <p><strong>Example:</strong> Which is larger: ½ or ⅜?</p>
+                    <div class="step-by-step">
+                        <div class="step">Convert to same denominator: ½ = 4/8</div>
+                        <div class="step">Compare: 4/8 vs 3/8</div>
+                        <div class="step">Answer: ½ is larger than ⅜</div>
+                    </div>
+                </div>
+
+                <div class="interactive-question">
+                    <h3>Interactive Question</h3>
+                    <p>Which fraction has the largest value?</p>
+                    <div class="question-options">
+                        <div class="option" onclick="checkAnswer(this, false, 'q3')">A) ½</div>
+                        <div class="option" onclick="checkAnswer(this, true, 'q3')">B) ¾</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q3')">C) ⅝</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q3')">D) ⅔</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q3')">E) ⅚</div>
+                    </div>
+                    <div class="feedback" id="feedback-q3"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="data-handling" class="content-area">
+            <button class="back-btn" onclick="showMainMenu()">← Back to Menu</button>
+            <div class="lesson-content">
+                <h2>Data Handling & Statistics</h2>
+                
+                <div class="example-box">
+                    <h3>Reading Pictographs</h3>
+                    <p>Always check the key to understand what each symbol represents!</p>
+                    <p><strong>Example:</strong> If 🍎 = 6 children and you see 🍎🍎🍎½, this represents:</p>
+                    <p>3 × 6 + 3 = 21 children</p>
+                </div>
+
+                <div class="interactive-question">
+                    <h3>Interactive Question</h3>
+                    <p>In a pizza toppings survey where 🍕 = 6 children and ½🍕 = 3 children, 
+                    if tuna and sweetcorn shows 🍕🍕🍕🍕½🍕, how many children chose this topping?</p>
+                    <div class="question-options">
+                        <div class="option" onclick="checkAnswer(this, true, 'q4')">A) 27</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q4')">B) 24</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q4')">C) 30</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q4')">D) 21</div>
+                        <div class="option" onclick="checkAnswer(this, false, 'q4')">E) 33</div>
+                    </div>
+                    <div class="feedback" id="feedback-q4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-score hidden" id="quizScore">
+            <h3>🎉 Well Done!</h3>
+            <p>You've completed <span id="completedQuestions">0</span> questions correctly!</p>
+            <div id="achievements"></div>
+        </div>
+    </div>
+
+    <script>
+        let completedTopics = new Set();
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+
+        function showTopic(topicId) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(area => {
+                area.classList.remove('active');
+            });
+            document.getElementById(topicId).classList.add('active');
+            completedTopics.add(topicId);
+            updateProgress();
+        }
+
+        function showMainMenu() {
+            document.getElementById('mainMenu').style.display = 'grid';
+            document.querySelectorAll('.content-area').forEach(area => {
+                area.classList.remove('active');
+            });
+        }
+
+        function checkAnswer(element, isCorrect, questionId) {
+            totalQuestions++;
+            const options = element.parentNode.querySelectorAll('.option');
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option === element) {
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        correctAnswers++;
+                        feedback.textContent = '✅ Correct! Well done!';
+                        feedback.className = 'feedback correct';
+                    } else {
+                        option.classList.add('incorrect');
+                        feedback.textContent = '❌ Incorrect. Try to review the concept and practice more!';
+                        feedback.className = 'feedback incorrect';
+                    }
+                } else if (isCorrect && option.onclick.toString().includes('true')) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            feedback.style.display = 'block';
+            updateQuizScore();
+        }
+
+        function updateProgress() {
+            const totalTopics = 10;
+            const progressPercentage = (completedTopics.size / totalTopics) * 100;
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+            document.getElementById('progressText').textContent = Math.round(progressPercentage) + '%';
+        }
+
+        function updateQuizScore() {
+            const scoreElement = document.getElementById('quizScore');
+            const completedElement = document.getElementById('completedQuestions');
+            const achievementsElement = document.getElementById('achievements');
+            
+            completedElement.textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            let achievements = [];
+            if (correctAnswers >= 1) achievements.push('🌟 First Correct Answer!');
+            if (correctAnswers >= 3) achievements.push('🔥 On Fire!');
+            if (correctAnswers >= 5) achievements.push('🏆 Math Master!');
+            if (correctAnswers === totalQuestions && totalQuestions >= 3) achievements.push('💯 Perfect Score!');
+            
+            achievementsElement.innerHTML = achievements.map(achievement => 
+                `<span class="achievement">${achievement}</span>`
+            ).join('');
+            
+            if (totalQuestions > 0) {
+                scoreElement.classList.remove('hidden');
+            }
+        }
+
+        // Add more interactive content
+        function addMoreTopics() {
+            const topics = ['percentages', 'geometry-shapes', 'area-perimeter', 'coordinates', 'algebra-patterns', 'problem-solving', 'time-measurement'];
+            
+            topics.forEach(topicId => {
+                if (!document.getElementById(topicId)) {
+                    const contentArea = document.createElement('div');
+                    contentArea.id = topicId;
+                    contentArea.className = 'content-area';
+                    contentArea.innerHTML = `
+                        <button class="back-btn" onclick="showMainMenu()">← Back to Menu</button>
+                        <div class="lesson-content">
+                            <h2>${topicId.replace('-', ' ').toUpperCase()}</h2>
+                            <div class="example-box">
+                                <h3>Coming Soon!</h3>
+                                <p>This topic is being developed with interactive content based on the examination papers.</p>
+                            </div>
+                        </div>
+                    `;
+                    document.querySelector('.container').appendChild(contentArea);
+                }
+            });
+        }
+
+        // Initialize additional topics
+        addMoreTopics();
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                showMainMenu();
+            }
+        });
+    </script>
+</body>
+</html>
